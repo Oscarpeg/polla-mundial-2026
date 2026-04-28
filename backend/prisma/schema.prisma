@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MatchPhase {
+  GROUPS
+  R32
+  R16
+  QF
+  SF
+  THIRD
+  FINAL
+}
+
+enum MatchStatus {
+  PENDING
+  LIVE
+  FINISHED
+}
+
+model User {
+  id               String            @id @default(uuid())
+  username         String            @unique
+  email            String            @unique
+  passwordHash     String
+  isAdmin          Boolean           @default(false)
+  createdAt        DateTime          @default(now())
+
+  predictions      Prediction[]
+  globalPrediction GlobalPrediction?
+}
+
+model Team {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  code        String  @unique
+  group       String?
+  flagUrl     String?
+
+  homeMatches Match[] @relation("HomeTeam")
+  awayMatches Match[] @relation("AwayTeam")
+
+  championOf GlobalPrediction[] @relation("Champion")
+  runnerUpOf GlobalPrediction[] @relation("RunnerUp")
+  thirdOf    GlobalPrediction[] @relation("Third")
+  fourthOf   GlobalPrediction[] @relation("Fourth")
+}
+
+model Match {
+  id            String      @id @default(uuid())
+  phase         MatchPhase
+  matchday      Int?
+  scheduledAt   DateTime
+  lockedAt      DateTime?
+  venue         String?
+  homeTeamId    String?
+  awayTeamId    String?
+  resultHome90  Int?
+  resultAway90  Int?
+  resultHomeET  Int?
+  resultAwayET  Int?
+  resultHomePen Int?
+  resultAwayPen Int?
+  winnerId      String?
+  matchStatus   MatchStatus @default(PENDING)
+
+  homeTeam    Team?        @relation("HomeTeam", fields: [homeTeamId], references: [id])
+  awayTeam    Team?        @relation("AwayTeam", fields: [awayTeamId], references: [id])
+  predictions Prediction[]
+}
+
+model Prediction {
+  id           String   @id @default(uuid())
+  userId       String
+  matchId      String
+  pickHome90   Int
+  pickAway90   Int
+  pickHomeET   Int?
+  pickAwayET   Int?
+  pickHomePen  Int?
+  pickAwayPen  Int?
+  ptsWinner    Int      @default(0)
+  ptsExact     Int      @default(0)
+  ptsET        Int      @default(0)
+  ptsETExact   Int      @default(0)
+  ptsPen       Int      @default(0)
+  ptsPenExact  Int      @default(0)
+  ptsTotal     Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id])
+  match Match @relation(fields: [matchId], references: [id])
+
+  @@unique([userId, matchId])
+}
+
+model GlobalPrediction {
+  id           String    @id @default(uuid())
+  userId       String    @unique
+  championId   String?
+  runnerUpId   String?
+  thirdId      String?
+  fourthId     String?
+  ptsChampion  Int       @default(0)
+  ptsRunnerUp  Int       @default(0)
+  ptsThird     Int       @default(0)
+  ptsFourth    Int       @default(0)
+  ptsTotal     Int       @default(0)
+  lockedAt     DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user     User  @relation(fields: [userId], references: [id])
+  champion Team? @relation("Champion", fields: [championId], references: [id])
+  runnerUp Team? @relation("RunnerUp", fields: [runnerUpId], references: [id])
+  third    Team? @relation("Third", fields: [thirdId], references: [id])
+  fourth   Team? @relation("Fourth", fields: [fourthId], references: [id])
+}
+
+model ThirdPlaceCombination {
+  id        Int    @id @default(autoincrement())
+  groupsKey String @unique
+  slots     Json
+}

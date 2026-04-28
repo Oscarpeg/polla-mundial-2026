@@ -1,0 +1,24 @@
+databases:
+  - name: polla-mundial-db
+    plan: free
+    postgresMajorVersion: "16"
+
+services:
+  - type: web
+    name: polla-mundial-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npx prisma migrate deploy && node dist/server.js
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: polla-mundial-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: PORT
+        value: "3000"
