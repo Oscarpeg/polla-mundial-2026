@@ -2,6 +2,15 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 export function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -30,45 +39,109 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="auth-page">
-      <h1>Crear cuenta</h1>
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength={6}
-        />
-        <input
-          type="password"
-          placeholder="Confirmar contraseña"
-          value={confirm}
-          onChange={(e) => setConfirm(e.target.value)}
-          required
-          minLength={6}
-        />
-        <button type="submit" disabled={isLoading}>Crear cuenta</button>
-      </form>
-      {error && <p className="error">{error}</p>}
-      <p>
-        ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
-      </p>
+    <div className="min-h-svh flex items-center justify-center bg-gradient-to-br from-green-950 via-emerald-900 to-green-950 px-4 py-8">
+      <Card className="w-full max-w-sm shadow-2xl">
+        <CardHeader className="text-center pb-2">
+          <div className="text-4xl mb-1">⚽</div>
+          <CardTitle className="text-xl tracking-tight">Polla Mundial 2026</CardTitle>
+          <CardDescription>Crea tu cuenta para participar</CardDescription>
+        </CardHeader>
+
+        <form onSubmit={onSubmit}>
+          <CardContent className="space-y-4 pt-4 pb-6">
+            {error && (
+              <p className="rounded-md bg-red-500/10 px-3 py-2 text-sm text-red-500">
+                {error}
+              </p>
+            )}
+
+            <div className="space-y-1.5">
+              <label htmlFor="username" className="text-sm font-medium text-foreground">
+                Usuario
+              </label>
+              <Input
+                id="username"
+                type="text"
+                placeholder="tunombre"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                autoComplete="username"
+                className="h-9"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label htmlFor="email" className="text-sm font-medium text-foreground">
+                Email
+              </label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="tu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+                className="h-9"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label htmlFor="password" className="text-sm font-medium text-foreground">
+                Contraseña
+              </label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="new-password"
+                minLength={6}
+                className="h-9"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label htmlFor="confirm" className="text-sm font-medium text-foreground">
+                Confirmar contraseña
+              </label>
+              <Input
+                id="confirm"
+                type="password"
+                placeholder="••••••••"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                required
+                autoComplete="new-password"
+                minLength={6}
+                className="h-9"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              size="lg"
+              className="mt-2 w-full border-0 bg-[var(--accent)] text-white hover:bg-[var(--accent)]/90"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Creando cuenta…' : 'Crear cuenta'}
+            </Button>
+
+            <p className="text-center text-sm text-muted-foreground">
+              ¿Ya tienes cuenta?{' '}
+              <Link
+                to="/login"
+                className="font-medium text-[var(--accent)] hover:underline"
+              >
+                Inicia sesión
+              </Link>
+            </p>
+          </CardContent>
+        </form>
+      </Card>
     </div>
   );
 }

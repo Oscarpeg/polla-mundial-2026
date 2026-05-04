@@ -2,6 +2,23 @@ import { useEffect, useMemo } from 'react';
 import { useMatchesStore } from '../store/matchesStore';
 import { usePredictionsStore } from '../store/predictionsStore';
 import { BracketTree } from '../components/BracketTree';
+import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+
+function BracketSkeleton() {
+  return (
+    <div className="flex gap-5 overflow-hidden">
+      {[16, 8, 4, 2, 1].map((n, i) => (
+        <div key={i} className="flex shrink-0 flex-col gap-3" style={{ minWidth: 210 }}>
+          <Skeleton className="h-4 w-20" />
+          {Array.from({ length: Math.ceil(n / 2) }, (_, j) => (
+            <Skeleton key={j} className="h-[72px] rounded-lg" />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export function BracketPage() {
   const matches = useMatchesStore((s) => s.matches);
@@ -26,10 +43,22 @@ export function BracketPage() {
   );
 
   return (
-    <div className="page bracket-page">
-      <h1>Bracket eliminatorio</h1>
-      {!r32Activated ? (
-        <p>El administrador aún no ha definido los terceros clasificados.</p>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight">Bracket eliminatorio</h1>
+        <p className="text-sm text-muted-foreground">
+          Ingresa tus pronósticos para la fase eliminatoria
+        </p>
+      </div>
+
+      {!isLoaded ? (
+        <BracketSkeleton />
+      ) : !r32Activated ? (
+        <Card>
+          <CardContent className="py-8 text-center text-sm text-muted-foreground">
+            El administrador aún no ha definido los cruces de la Ronda de 32.
+          </CardContent>
+        </Card>
       ) : (
         <BracketTree matches={knockout} predictions={predictions} />
       )}
