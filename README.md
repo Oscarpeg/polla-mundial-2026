@@ -1,6 +1,28 @@
-# Polla Mundial 2026
+# Polla Mundial 2026 — Predicciones para el torneo más grande del planeta
 
-Web app de predicciones para el Mundial 2026 (USA / Canadá / México). Los usuarios predicen los 104 partidos del torneo + picks globales (campeón, subcampeón, 3°, 4°). El admin ingresa resultados reales y el sistema calcula los puntos automáticamente.
+![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
+![Render](https://img.shields.io/badge/Backend-Render-46E3B7?logo=render&logoColor=black)
+![Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?logo=vercel&logoColor=white)
+
+> Web app de predicciones para el Mundial 2026 (USA / Canadá / México). Los usuarios predicen los 104 partidos del torneo + picks globales (campeón, subcampeón, 3°, 4°). El admin ingresa resultados reales y el sistema calcula los puntos automáticamente con un sistema de scoring por fases.
+
+## ✨ Features
+
+- **Predicciones completas**: pronostica marcador en 90', prórroga y penales para los 104 partidos del torneo
+- **Picks globales**: elige campeón, subcampeón, 3° y 4° lugar antes del kick-off (deadline: 11 jun 2026)
+- **Scoring automático**: el sistema calcula puntos al ingresar cada resultado real, sin intervención manual
+- **Leaderboard en tiempo real**: ranking actualizado con puntajes acumulados de todos los participantes
+- **Vista previa de predicciones**: revisa y ajusta todos tus picks antes de que los partidos se bloqueen
+- **Panel de admin**: ingreso de resultados, resolución de llaves eliminatorias y gestión del bracket
+- **Auth con JWT**: registro, login y rutas protegidas por rol (usuario / admin)
+- **Deploy listo**: `render.yaml` para backend + DB en Render, `vercel.json` para frontend en Vercel
+
+## 📸 Screenshots
+
+> 📷 Screenshots pendientes — próximamente
 
 ## Stack
 
