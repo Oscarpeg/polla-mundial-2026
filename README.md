@@ -242,3 +242,10 @@ npm run dev                   # Vite dev server
 npm run build                 # tsc -b && vite build
 npm run preview               # sirve el build local
 ```
+
+<img width="1600" height="841" alt="WhatsApp Image 2026-08-18 at 5 41 11 PM" src="https://github.com/user-attachments/assets/4ca0a696-3f9e-4353-8439-b45c9f9fda52" />
+<img width="1600" height="841" alt="WhatsApp Image 2026-08-18 at 5 41 31 PM" src="https://github.com/user-attachments/assets/bbfdec1d-8474-45be-93a8-4b186ed0a6dd" />
+<img width="1600" height="880" alt="WhatsApp Image 2026-08-18 at 5 48 42 PM" src="https://github.com/user-attachments/assets/ae071c9a-d800-4d72-8f1e-c2a56c4b2fdb" />
+
+
+
